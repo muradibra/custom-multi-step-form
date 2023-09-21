@@ -21,23 +21,16 @@ const initialState = {
         },
     ],
     step1: {
-        fullname: "",
-        username: ""
+        firstname: "",
+        lastname: ""
     },
     step2: {
         email: "",
-        password: ""
+        phone: ""
     },
     step3: {
-        age: "",
-        experience: ""
-    },
-    step4: {
-        fullname: "",
-        username: "",
-        email: "",
-        password: "",
-
+        start_date: "",
+        end_date: ""
     }
 }
 
@@ -54,23 +47,9 @@ export const stepSlice = createSlice({
         goToSelectedStep: (state, action) => {
             state.currentStep = action.payload
         },
-        setStep1: (state, action) => {
-            state.step1 = {
-                ...state.step1,
-                ...action.payload
-            }
-        },
-        setStep2: (state, action) => {
-            state.step2 = {
-                ...state.step2,
-                ...action.payload
-            }
-        },
-        setStep3: (state, action) => {
-            state.step3 = {
-                ...state.step3,
-                ...action.payload
-            }
+        updateStep: (state, action) => {
+            const { stateName, field, value } = action.payload
+            state[stateName][field] = value
         }
     }
 })
@@ -79,9 +58,7 @@ export const {
     prevStep,
     nextStep,
     goToSelectedStep,
-    setStep1,
-    setStep2,
-    setStep3
+    updateStep,
 } = stepSlice.actions
 
 export default stepSlice.reducer

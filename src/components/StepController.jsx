@@ -4,16 +4,15 @@ import { Button } from 'reactstrap'
 import { nextStep, prevStep } from '../slices/stepSlice'
 import { toast } from 'react-toastify'
 import { toast_config } from '../config'
-import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import { checkIsValidEmail } from '../regex'
 
 function StepController() {
     const dispatch = useDispatch()
-    const navigate = useNavigate()
     const { currentStep } = useSelector(store => store.step)
-    const { fullname, username } = useSelector(store => store.step.step1)
-    const { email, password } = useSelector(store => store.step.step2)
-    const { age, experience } = useSelector(store => store.step.step3)
+    const { firstname, lastname } = useSelector(store => store.step.step1)
+    const { email, phone } = useSelector(store => store.step.step2)
+    const { start_date, end_date } = useSelector(store => store.step.step3)
 
     const handlePrev = () => {
         if (currentStep === 1) {
@@ -24,21 +23,30 @@ function StepController() {
 
     const handleNext = () => {
 
-        if (!fullname || !username) {
+        if (!firstname || !lastname) {
             toast.error("Both fields are required", toast_config)
             return
         }
 
         if (currentStep == 2) {
-            if (!email || !password) {
+            if (!email || !phone) {
                 toast.error("Both fields are required", toast_config)
+                return
+            }
+
+            if (!checkIsValidEmail(email)) {
+                toast.error("Valid Email is required!")
                 return
             }
         }
 
         if (currentStep == 3) {
-            if (!age || !experience) {
+            if (!start_date || !end_date) {
                 toast.error("Both fields are required", toast_config)
+                return
+            }
+            if (new Date(start_date) >= new Date(end_date)) {
+                toast.error("Start date can't be after end date!")
                 return
             }
         }
@@ -63,7 +71,6 @@ function StepController() {
                     '',
                     'success'
                 )
-                navigate('/total')
             }
         })
     }
@@ -91,9 +98,7 @@ function StepController() {
                             backgroundColor: "#435334"
                         }}
                     >
-                        <Link>
-                            Submit
-                        </Link>
+                        Submit
                     </Button>
                     :
                     <Button

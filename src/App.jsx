@@ -7,7 +7,6 @@ import './assets/css/styles.scss'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify'
 import { Route, Routes } from 'react-router-dom'
-import TotalData from './components/TotalData'
 
 function App() {
   return (
@@ -15,7 +14,7 @@ function App() {
       <Provider store={store}>
         <Routes>
             <Route path='/' element={<Layout />}/>
-            <Route path='/total' element={<TotalData />} />
+            {/* <Route path='/total' element={<TotalData />} /> */}
         </Routes>
       </Provider>
       <ToastContainer />

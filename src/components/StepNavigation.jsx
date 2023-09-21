@@ -6,32 +6,31 @@ import { goToSelectedStep } from '../slices/stepSlice'
 function StepNavigation() {
     const dispatch = useDispatch()
     const { list, currentStep } = useSelector(store => store.step)
-    const { fullname, username } = useSelector(store => store.step.step1)
-    const { email, password } = useSelector(store => store.step.step2)
+    const { firstname, lastname } = useSelector(store => store.step.step1)
+    const { email, phone } = useSelector(store => store.step.step2)
 
     const handleOnClick = (selectedStep) => {
-        if (!fullname || !username) {
+        if (!firstname || !lastname) {
             return
         }
+
         if (currentStep == 2) {
-            if (fullname && username) {
+            if (firstname && lastname) {
                 dispatch(goToSelectedStep(selectedStep))
 
             }
-            else if (!email || !password) {
+            else if (!email || !phone) {
                 return
             }
         }
 
-        if(currentStep == 3) {
-            if(!fullname && !username && !email && !password) {
-                return            
+        if (currentStep == 3) {
+            if (!firstname && !lastname && !email && !phone) {
+                return
             } else {
                 dispatch(goToSelectedStep(selectedStep))
             }
         }
-
-
 
         dispatch(goToSelectedStep(selectedStep))
     }

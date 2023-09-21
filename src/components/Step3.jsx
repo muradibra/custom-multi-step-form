@@ -1,29 +1,47 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Input } from 'reactstrap'
-import { setStep3 } from '../slices/stepSlice'
+import { Input, Label, Row } from 'reactstrap'
+import { updateStep } from '../slices/stepSlice'
 
 function Step3() {
   const dispatch = useDispatch()
-  const { step3 } = useSelector(store => store.step)
-
-  const handleInputChange = (key, value) => {
-    dispatch(setStep3({ [key]: value }))
-  }
+  const { start_date, end_date } = useSelector(store => store.step.step3)
 
   return (
     <div className='step-item'>
-      <Input
-        type='number'
-        placeholder='Your age...'
-        value={step3.age}
-        onChange={e => handleInputChange("age", e.target.value)}
-      />
-      <Input
-        placeholder='Your experience...'
-        value={step3.experience}
-        onChange={e => handleInputChange("experience", e.target.value)}
-      />
+      <Row>
+        <div className="col-md-6 mb-3">
+          <Label>Start Date</Label>
+          <Input
+            type='date'
+            value={start_date}
+            onChange={e => dispatch(updateStep({
+              stateName: "step3",
+              field: "start_date",
+              value: e.target.value
+            }))}
+          />
+        </div>
+        <div className="col-md-6 mb-3">
+          <Label>End Date</Label>
+          <Input
+            type='date'
+            value={end_date}
+            onChange={e => dispatch(updateStep({
+              stateName: "step3",
+              field: "end_date",
+              value: e.target.value
+            }))}
+            onKeyDown={(e) => {
+              if (e.key === "Tab") {
+                dispatch(nextStep())
+              }
+            }}
+          />
+        </div>
+      </Row>
+
+
     </div>
   )
 }
